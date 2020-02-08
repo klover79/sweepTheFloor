@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+<!--for bootstrap datetimepicker-->
+{% block extrahead %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{{ form.media }}
+{% endblock %}
+<!--end for bootstrap datetimepicker-->
+
+{% block content %}
+
+<div class="content-section">
+    <div class="media">
+        <img class="img-thumbnail account-img" src="{{ user.profile.image.url }}">
+        <div class="media-body">
+            <h2 class="account-heading">{{ user.username }}</h2>
+            <p class="text-secondary">{{ user.email }}</p>
+        </div>
+    </div>
+    <br><br>
+    <form method="post" action="" class="">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Book Your Cleaning Services Today</legend>
+            {{ form|crispy }}
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Book Now</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

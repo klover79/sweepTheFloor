@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load crispy_forms_tags %}
+<!--for bootstrap datetimepicker-->
+{% block extrahead %}
+{% bootstrap_javascript jquery='full' %}
+{{ form.media }}
+{% endblock %}
+<!--end for bootstrap datetimepicker-->
+{% block content %}
+
+
+<div class="content-section">
+    <form method="post" action="" class="">
+        {% csrf_token %}
+
+        <div class="">
+            <p>
+                <button class="btn btn-lg btn-outline-info" type="button" data-toggle="collapse" data-target="#message"
+                        aria-expanded="false" aria-controls="message">
+                    <i class="fas fa-id-card"></i>
+                </button>
+            </p>
+            <div class="collapse " id="message">
+                <div class="card card-body border border-info">
+                    <table class="table table-borderless text-info">
+                        <tbody>
+                        <tr>
+                            <td><i class="fas fa-id-card"></i></td>
+                            <td>{{ object.user.first_name}} {{ object.user.last_name}}</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-sign-in-alt"></i></td>
+                            <td>{{ object.user.username}}</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-phone"></i></td>
+                            <td>{{ object.user.profile.phone_no}}</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-mobile-alt"></i></td>
+                            <td>{{ object.user.profile.mobile_no}}</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-envelope"></i></td>
+                            <td>{{ object.user.email}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+            </div>
+        </div>
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Booking Administration</legend>
+            <h2 class="">Update Booking Record</h2>
+            {{ form|crispy }}
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Update</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

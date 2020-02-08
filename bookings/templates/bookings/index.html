@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load crispy_forms_tags %}
+<!--for bootstrap datetimepicker-->
+{% block extrahead %}
+{% bootstrap_javascript jquery='full' %}
+{{ my_filter.form.media }}
+{% endblock %}
+<!--end for bootstrap datetimepicker-->
+{% block content%}
+
+<div class="content-section">
+    <div class="container-fluid padding">
+        <div class="media-body">
+            <h2 class="account-heading">Search Bookings</h2>
+            <p class="text-secondary">by {{ user.username }}</p>
+        </div>
+        <div class="row">
+            <!--            form for filter-->
+            <div class="col">
+                <div class="card card-body">
+                    <form method="get" class="">
+                        {{ my_filter.form | crispy}}
+                        <button class="btn btn-outline-info" type="submit">
+                            Search
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        <table class="table table-striped">
+            <thead class="">
+            <tr class="">
+                <th scope="col">#</th>
+                <th scope="col">Date</th>
+                <th scope="col">Time</th>
+                <th scope="col">Status</th>
+                <th scope="col" class="">User</th>
+                <th scope="col">Edit</th>
+            </tr>
+            </thead>
+            {% for booking in bookings %}
+            <tr>
+                <td>{{booking.id}}</td>
+                <td>{{booking.booking_date}}</td>
+                <td>{{booking.booking_time}}</td>
+                <td>{{booking.status}}</td>
+                <td>{{booking.user}}</td>
+                {% if user.is_superuser %}
+                    <td><a href="{% url 'booking-admin-update' booking.id %}" class="btn btn-outline-info"><i class="fas fa-edit"></i></a></td>
+                {% else %}
+                    <td><a href="{% url 'booking-detail' booking.id %}" class="btn btn-outline-info"><i class="fas fa-file-alt"></i></a></td>
+                {% endif %}
+
+
+            </tr>
+            {% endfor%}
+        </table>
+
+        <div class="pagination">
+
+            {% if bookings.has_previous %}
+            <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ bookings.previous_page_number }}">Previous</a>
+            {% endif %}
+
+            {% for num in bookings.paginator.page_range %}
+                {% if bookings.number == num %}
+                   <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                {% elif num > bookings.number|add:'-3' and num < bookings.number|add:'3' %}
+                   <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                {% endif %}
+            {% endfor%}
+
+            {% if bookings.has_next %}
+            <a class="btn btn-outline-info mb-4" href="?page={{ bookings.next_page_number }}">Next</a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ bookings.paginator.num_pages }}">Last</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock%}

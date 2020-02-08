@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="content-section">
+    <div class="media">
+        <img class="img-thumbnail account-img" src="{{ user.profile.image.url }}">
+        <div class="media-body">
+            <h2 class="account-heading">{{ user.first_name }} {{ user.last_name}}</h2>
+            <p class="text-secondary">{{ user.email }}</p>
+        </div>
+
+    </div>
+    <div class="media-body">
+        <div class="article-metadata">
+            {% if modify == 'disabled' %}
+            <p>
+                <button class="btn btn-outline-danger" type="button" data-toggle="collapse" data-target="#message"
+                        aria-expanded="false" aria-controls="message">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </button>
+            </p>
+            <div class="collapse" id="message">
+                <div class="card card-body text-danger border border-danger">
+                    {{message}}
+                </div>
+                <br>
+            </div>
+
+            {% endif %}
+
+            <div class="card mb-4">
+            <h5 class="card-header">Booking Details For Booking ID: {{ object.id }}</h5>
+            <div class="card-body">
+                <dl class="row">
+                <dt class="col-sm-3"><i class="fas fa-check-circle"></i></dt>
+                <dd class="col-sm-9">{{ object.status.status_desc}}</dd>
+                <dt class="col-sm-3"><i class="fas fa-calendar-alt"></i></dt>
+                <dd class="col-sm-9">{{ object.booking_date|date:"F d, Y"}}</dd>
+                <dt class="col-sm-3"><i class="far fa-clock"></i></dt>
+                <dd class="col-sm-9">{{ object.booking_time}}</dd>
+                <dt class="col-sm-3"><i class="fas fa-map-marker-alt"></i></dt>
+                <dd class="col-sm-9">
+                    <p class="">{{ object.address.lot_no}} {{ object.address.street}} ,</p>
+                    <p class="">{{ object.address.locality}} , </p>
+                    <p class="">{{ object.address.postal_code}} {{ object.address.city}} , </p>
+                    <p class="">{{ object.address.state}} , {{ object.address.state.country}}</p>
+
+                </dd>
+            </dl>
+            </div>
+        </div>
+
+            {% if object.user == user %}
+            <div class="">
+                <a href="{% url 'booking-update' object.id %}" class="btn btn-secondary btn-sm mt-1 mb-1 {{ modify }} ">Update</a>
+                <a href="{% url 'booking-delete' object.id %}" class="btn btn-danger btn-sm mt-1 mb-1 {{ modify }} ">Delete</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content %}
