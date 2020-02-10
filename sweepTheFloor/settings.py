@@ -141,6 +141,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
+# STATIC_ROOT = '/home/klover79/sweep_the_floor/static' # static root is use to support collectstatic
 
 # All media root path
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

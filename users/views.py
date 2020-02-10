@@ -62,7 +62,7 @@ class AddressUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView, Suc
     model = Address
     fields = ['lot_no', 'street', 'locality', 'postal_code', 'city', 'state', 'is_billing', 'is_primary']
     success_url = '/profile'
-    template_name = 'users/address_update_form.html' 
+    template_name = 'users/address_update_form.html'
     success_message = 'Address updated!'
 
     def form_valid(self, form):
