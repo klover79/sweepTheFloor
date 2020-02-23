@@ -1,0 +1,22 @@
+
+{% extends 'base_email.html' %}
+{% load bootstrap4 %}
+{% block content %}
+
+<div class="container-fluid content-section shadow-sm">
+    <h1 class="h1">Sweep The Floor - Account Activation</h1>
+    <hr>
+    <p>Hi {{ recipient_name }} , </p>
+    <br>
+    <p>Please click on the link below to verify your account:</p>
+    <p>http://{{domain}}{% url 'activate' uidb64=uid token=token %}</p>
+    <br>
+    <hr>
+    <address class="">
+        <p class="">Best Regards,</p>
+        <p class="">Admin </p>
+        <p class=""><small>Sweep The Floor</small></p>
+    </address>
+</div>
+
+{% endblock%}

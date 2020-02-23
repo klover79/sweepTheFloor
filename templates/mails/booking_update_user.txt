@@ -1,0 +1,9 @@
+Sweep The Floor
+
+Hi {{recipient_name}},
+
+Your booking id {{booking_id}} has been update to {{status}} status.
+
+Best Regards,
+System Admin Sweep The Floor
+by Semua Unggul Services

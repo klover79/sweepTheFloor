@@ -160,14 +160,9 @@ LOGIN_URL = 'login'
 # django-address
 GOOGLE_API_KEY = 'AIzaSyD--your-google-maps-key-SjQBE'
 
-# Set environment variables DO NOT DO THIS. PLEASE SET TO OS ENVIRONMENT VARIABLES
-os.environ['EMAIL_HOST_USER'] = 'semuaunggultechnologies@gmail.com'
-os.environ['EMAIL_HOST_PASSWORD'] = 'gtjlstpdmdnlztfy'
-
-
 # gmail setup
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_BACKEND = os.environ.get("EMAIL_BACKEND")
+EMAIL_HOST = os.environ.get("EMAIL_HOST")
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")

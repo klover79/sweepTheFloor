@@ -1,0 +1,9 @@
+Hi Admin, </p>
+
+A new booking with booking id {{ booking_id }} has been created
+Please contact user to confirm the date and time and update the system http:booking.semuaunggul.com/admin
+
+Best Regards,
+{{sender_name}}
+Sweep The Floor
+by Semua Unggul Services

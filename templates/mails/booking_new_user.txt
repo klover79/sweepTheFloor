@@ -1,0 +1,12 @@
+Sweep The Floor
+
+Hi {{recipient_name}},
+
+Your booking id {{booking_id}} is now in {{status}} status and under process by our admin.
+We will contact you for confirmation at soonest.
+
+Thank you for booking with us
+
+Best Regards,
+System Admin Sweep The Floor
+by Semua Unggul Services

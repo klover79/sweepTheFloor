@@ -220,23 +220,3 @@ class BookingAdminUpdateView(LoginRequiredMixin, UpdateView):
                              bookings.status.status_desc,
                              'update')  # record type
         return super().form_valid(form)
-
-
-def send_email(request):
-    return render(request, 'bookings/email.html')
-
-
-def sendmail(request):
-
-    # is_send_user = bool(ActivateBoolean.objects.values_list('activate', flat=True).filter(
-    #     activation_type='send_to_user_email')[0])
-    #
-    # mail_to_user_booking('faiz.kadir.ismail@gmail.com', 'Admin', 'Danish', 'faiz.kadir.ismail@gmail.com',
-    #                      'Booking Creation - Sweep The Floor', is_send_user, 'Open', 'new')
-    mail_to_admin_booking(None,
-                          'User A',
-                          'Booking New',
-                          33,
-                          'new', )
-
-    return HttpResponse('Mail successfully sent')

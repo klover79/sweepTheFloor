@@ -1,0 +1,21 @@
+{% extends 'base_email.html' %}
+{% load bootstrap4 %}
+{% block content %}
+<div class="container-fluid content-section shadow-sm">
+    <h1 class="h1">Sweep The Floor</h1>
+    <hr>
+    <p>Hi {{ recipient_name }}, </p>
+    <br>
+    <p>Your booking id <strong> {{ booking_id }} </strong> has been update to <strong> {{ status }} </strong> status.</p>
+    <br>
+    <hr>
+    <address class="">
+        <p class="">Best Regards,</p>
+        <p class="">Admin </p>
+        <p class=""><small>Sweep The Floor</small></p>
+        <p class=""><small>by Semua Unggul Services</small></p>
+    </address>
+</div>
+
+
+{% endblock%}
