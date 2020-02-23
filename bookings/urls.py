@@ -6,7 +6,8 @@ from .views import (BookingCreateView,
                     BookingDetailView,
                     BookingUpdateView,
                     BookingDeleteView,
-                    BookingAdminUpdateView)
+                    BookingAdminUpdateView,
+                    send_email, sendmail)
 from django.contrib.admin.views.decorators import staff_member_required
 
 urlpatterns = [
@@ -20,6 +21,7 @@ urlpatterns = [
     path('booking/<int:pk>/', BookingDetailView.as_view(), name='booking-detail'),
     path('booking/<int:pk>/update', BookingUpdateView.as_view(), name='booking-update'),
     path('booking/<int:pk>/delete', BookingDeleteView.as_view(), name='booking-delete'),
+
 
     # path('about/', views.about, name='blog-about'),
 ]

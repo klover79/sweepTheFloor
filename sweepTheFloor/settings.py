@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bookings.apps.BookingsConfig',
     'users.apps.UsersConfig',
+    'parameters.apps.ParametersConfig',
     'crispy_forms',
     'bootstrap4',
     'bootstrap_datepicker_plus',
@@ -160,8 +161,8 @@ LOGIN_URL = 'login'
 GOOGLE_API_KEY = 'AIzaSyD--your-google-maps-key-SjQBE'
 
 # Set environment variables DO NOT DO THIS. PLEASE SET TO OS ENVIRONMENT VARIABLES
-os.environ['EMAIL_USER'] = 'semuaunggultechnologies@gmail.com'
-os.environ['EMAIL_PASS'] = 'gtjlstpdmdnlztfy'
+os.environ['EMAIL_HOST_USER'] = 'semuaunggultechnologies@gmail.com'
+os.environ['EMAIL_HOST_PASSWORD'] = 'gtjlstpdmdnlztfy'
 
 
 # gmail setup
@@ -169,6 +170,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ.get("EMAIL_USER")
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASS")
-
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")

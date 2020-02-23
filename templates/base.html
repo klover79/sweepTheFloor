@@ -48,7 +48,7 @@
                     <a href="{% url 'home' %}" class="nav-link">Home</a>
                 </li>
                 {% if user.is_authenticated %}
-                {% if user.is_superuser %}
+                {% if user.is_staff %}
                 <li class="nav-item">
                     <a href="{% url 'booking-admin-index' %}" class="nav-link">Search Booking List</a>
                 </li>
@@ -93,7 +93,7 @@
 <div class="container-fluid col-md-6">
     {% if messages %}
     {% for message in messages %}
-    <div class="alert alert-{{message.tags}}">
+    <div class="alert alert-{{message.tags}} shadow-sm">
         {{message}}
     </div>
     {% endfor %}
@@ -157,7 +157,7 @@
             </div>
             <div class="col-12">
                 <hr class="light">
-                <h5 class="h5">&copy; sweepthefloor.my by Semua Unggul Service Sdn Bhd</h5>
+                <h5 class="h5">&copy; sweepthefloor.my by Semua Unggul Services Sdn Bhd</h5>
             </div>
         </div>
     </div>

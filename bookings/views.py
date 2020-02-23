@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from .models import Booking, BookingStatus
+from parameters.models import ActivateBoolean, EmailList, EmailType
 from users.models import Address
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
@@ -12,9 +13,9 @@ from django.views.generic import (CreateView,
                                   DeleteView)
 from getenv import env
 from bootstrap_datepicker_plus import DatePickerInput, TimePickerInput
-from .notifications import booking_notification_email
 from .filters import BookingFilter
 from django.core.paginator import Paginator
+from mails.mailing import mail_to_user_booking, mail_to_admin_booking
 
 
 def home(request):
@@ -26,7 +27,7 @@ def home(request):
 
 
 def index(request):
-    bookings = Booking.objects.filter(user=request.user)
+    bookings = Booking.objects.filter(user=request.user).order_by('-booking_date')
     my_filter = BookingFilter(request.GET, queryset=bookings)
     bookings = my_filter.qs
 
@@ -62,16 +63,31 @@ class BookingCreateView(LoginRequiredMixin, CreateView):
         bookings = form.save()
         # send email notification
         user = User.objects.filter(id=self.request.user.id)
+        param_email_user = ActivateBoolean.objects.filter()
         booking_id = bookings.id
-        email_info = {
-            'user': user,
-            'booking_id': booking_id,
-            'status': bookings.status.status_desc,
-        }
-        booking_notification_email('Sweep The Floor - Booking',
-                                   email_info,
-                                   'new',
-                                   )
+
+        is_send_user = bool(ActivateBoolean.objects.values_list('activate',
+                                                                flat=True).filter(
+                                                                activation_type='send_to_user_email')[0])
+        is_send_admin = bool(ActivateBoolean.objects.values_list('activate',
+                                                                 flat=True).filter(
+                                                                 activation_type='send_to_company_email')[0])
+
+        if is_send_user:
+            mail_to_user_booking(None,  # sender : set to none as sender default setup from system
+                                 None,
+                                 user[0].first_name,  # recipient_name
+                                 user[0].email,  # user email
+                                 'Booking Creation - Sweep The Floor',  # subject
+                                 booking_id,
+                                 bookings.status.status_desc,
+                                 'new')   # record type
+        if is_send_admin:
+            mail_to_admin_booking(None,  # sender_email : set to none as sender default setup from system
+                                  user[0].first_name,  # recipient_name
+                                  'Booking Creation - Sweep The Floor',  # subject
+                                  booking_id,
+                                  'new')   # record type
         return super().form_valid(form)
 
 
@@ -118,15 +134,19 @@ class BookingUpdateView(LoginRequiredMixin, UpdateView):
         # send email notification
         user = User.objects.filter(id=self.request.user.id)
         booking_id = bookings.id
-        email_info = {
-            'user': user,
-            'booking_id': booking_id,
-            'status': bookings.status.status_desc,
-        }
-        booking_notification_email('Sweep The Floor - Booking',
-                                   email_info,
-                                   'update',
-                                   )
+        is_send_user = bool(ActivateBoolean.objects.values_list('activate',
+                                                                flat=True).filter(
+            activation_type='send_to_user_email')[0])
+
+        if is_send_user:
+            mail_to_user_booking(None,  # sender : set to none as sender default setup from system
+                                 None,
+                                 user[0].first_name,  # recipient_name
+                                 user[0].email,  # user email
+                                 'Booking Creation - Sweep The Floor',  # subject
+                                 booking_id,
+                                 bookings.status.status_desc,
+                                 'update')  # record type
         return super().form_valid(form)
 
     def test_func(self):
@@ -149,10 +169,10 @@ class BookingDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 # admin area
 
 
-@user_passes_test(lambda u: u.is_superuser)
+@user_passes_test(lambda u: u.is_staff)
 def booking_admin_index(request):
 
-    bookings = Booking.objects.all()
+    bookings = Booking.objects.all().order_by('-id')
     my_filter = BookingFilter(request.GET, queryset=bookings)
     bookings = my_filter.qs
 
@@ -191,15 +211,32 @@ class BookingAdminUpdateView(LoginRequiredMixin, UpdateView):
         # send email notification
         user = User.objects.filter(id=bookings.user.id)  # get user of the booking record
         booking_id = bookings.id
-        email_info = {
-            'user': user,
-            'booking_id': booking_id,
-            'status': bookings.status.status_desc,
-        }
-        booking_notification_email('Sweep The Floor - Booking',
-                                   email_info,
-                                   'update',
-                                   )
+        mail_to_user_booking(None,  # sender : set to none as sender default setup from system
+                             'Admin',  # sender_name
+                             user[0].first_name,  # recipient_name
+                             user[0].email,  # user email
+                             'Booking Status Update - Sweep The Floor',  # subject
+                             booking_id,
+                             bookings.status.status_desc,
+                             'update')  # record type
         return super().form_valid(form)
 
 
+def send_email(request):
+    return render(request, 'bookings/email.html')
+
+
+def sendmail(request):
+
+    # is_send_user = bool(ActivateBoolean.objects.values_list('activate', flat=True).filter(
+    #     activation_type='send_to_user_email')[0])
+    #
+    # mail_to_user_booking('faiz.kadir.ismail@gmail.com', 'Admin', 'Danish', 'faiz.kadir.ismail@gmail.com',
+    #                      'Booking Creation - Sweep The Floor', is_send_user, 'Open', 'new')
+    mail_to_admin_booking(None,
+                          'User A',
+                          'Booking New',
+                          33,
+                          'new', )
+
+    return HttpResponse('Mail successfully sent')

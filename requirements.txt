@@ -1,6 +1,6 @@
 asgiref==3.2.3
 beautifulsoup4==4.8.1
-Django==2.2.7
+Django
 django-bootstrap-datepicker-plus==3.0.5
 django-bootstrap4==1.0.1
 django-crispy-forms==1.8.0
@@ -14,3 +14,4 @@ pytz==2019.3
 six==1.14.0
 soupsieve==1.9.5
 sqlparse==0.3.0
+python-dotenv

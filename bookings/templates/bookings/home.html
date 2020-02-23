@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<div class="jumbotron">
+<div class="jumbotron shadow">
     <h1 class="display-4">Welcome</h1>
     <p class="lead">SweepTheFloor is the online booking system for cleaning and pest control services. We are currently
         covering area in KL, Selangor and Putrajaya</p>
@@ -28,13 +28,13 @@
 
 <br>
 
-<div class="container">
+<div class="card-deck">
     <div class="row">
         <div class="col-md-4">
-            <div class="card" style="height: 35rem;">
+            <div class="card shadow-sm" style="height: 30rem;">
                 <img src="{% static 'website_resource/stf_card_img2_clean_office.png' %}" class="card-img-top"
                      alt="...">
-                <div class="card-body">
+                <div class="card-body overflow-auto">
                     <h5 class="card-title">Office</h5>
                     <p class="card-text">Cleaning office premises, clinics, warehouse, housing developers showrooms,
                         etc.</p>
@@ -43,9 +43,9 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card" style="height: 35rem;">
+            <div class="card shadow-sm" style="height: 30rem;">
                 <img src="{% static 'website_resource/stf_card_img1_clean_house.jpg' %}" class="card-img-top" alt="...">
-                <div class="card-body">
+                <div class="card-body overflow-auto">
                     <h5 class="card-title">House</h5>
                     <p class="card-text">Daily cleaning service to any housing area including apartments and
                         condominiums.</p>
@@ -54,9 +54,9 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card" style="height: 35rem;">
+            <div class="card shadow-sm" style="height: 30rem;">
                 <img src="{% static 'website_resource/stf_card_img3_pool.jpg' %}" class="card-img-top" alt="...">
-                <div class="card-body">
+                <div class="card-body overflow-auto">
                     <h5 class="card-title">Clubs</h5>
                     <p class="card-text">Swimming pool, gym, party rooms, lounge, meeting rooms, gaming area, function
                         suites, gardens etc.</p>

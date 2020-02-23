@@ -8,15 +8,45 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import DeleteView, UpdateView, CreateView
 from django.urls import reverse_lazy
 from django.core.exceptions import ValidationError
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_text, DjangoUnicodeDecodeError
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from .utils import generate_token
+from mails.mailing import mail_to_user_activation
+from django.views import View
+from .models import User
+from django.conf import settings
 
 
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
+            user = form.save()
+            # default to non-active
+            user.is_active = False
             form.save()
             username = form.cleaned_data.get('username')
-            messages.success(request, f'Your account has been created. You are now able to login')
+            messages.success(request, f'Your account {username} has been created. '
+                                      f'Please check your email for account activation')
+
+            current_site = get_current_site(request)
+            email_subject = 'Sweep The Floor - Active Account'
+            message_context = {
+                               'user': user,
+                               'recipient_name': user.username,
+                               'sender': 'Admin',
+                               'domain': current_site,
+                               'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                               'token': generate_token.make_token(user),
+                                }
+
+            mail_to_user_activation(email_subject,
+                                    user.email,
+                                    message_context,
+                                    )
+
             return redirect('login')
     else:
         form = UserRegisterForm()
@@ -95,4 +125,20 @@ class AddressCreateView(LoginRequiredMixin, CreateView, SuccessMessageMixin):
         except ValidationError:
             messages.warning(self.request, 'Record with Primary Address already exists.')
         return render(self.request, template_name=self.template_name, context=self.get_context_data())
+
+
+class ActivateAccountView(View):
+    def get(self, request, uidb64, token):
+        try:
+            uid = force_text(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=uid)
+        except Exception as identifier:
+            user = None
+
+        if user is not None and generate_token.check_token(user, token):
+            user.is_active = True
+            user.save()
+            messages.success(request, 'Your account has been activated successfully. You can now login into STF')
+            return redirect('login')
+        return render(request, 'users/account_activate_fail.html', status=401)
 
