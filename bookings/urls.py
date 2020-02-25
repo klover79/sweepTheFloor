@@ -7,7 +7,7 @@ from .views import (BookingCreateView,
                     BookingUpdateView,
                     BookingDeleteView,
                     BookingAdminUpdateView,
-                    send_email, sendmail)
+                    )
 from django.contrib.admin.views.decorators import staff_member_required
 
 urlpatterns = [
