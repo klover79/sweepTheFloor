@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="content-section">
+    <div class="media">
+        <img class="img-thumbnail account-img" src="{{ user.profile.image.url }}">
+        <div class="media-body">
+            <h2 class="account-heading">{{ user.username }}</h2>
+            <p class="text-secondary">{{ user.email }}</p>
+        </div>
+    </div>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Profile Info</legend>
+            {{ u_form|crispy }}
+            {{ p_form|crispy }}
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info btn-lg" type="submit">Update Profile</button>
+        </div>
+    </form>
+
+    <fieldset class="form-group">
+        <div class="">
+            <hr class="">
+            <a href="{% url 'address-create' %}" class="btn btn-outline-dark btn-lg mt-1 mb-1"><i class="fas fa-map-marker-alt"></i> + Address ( {{ user_address.count }} )</a>
+        </div>
+        <br>
+
+        {% for add_field in user_address %}
+        <div class="card mb-4">
+            <h5 class="card-header">Address {{ forloop.counter }}</h5>
+            <div class="card-body">
+                <div class="">
+                    {%if add_field.is_primary %}
+                        <span class="badge badge-primary">Primary</span>
+                    {% endif %}
+                    {%if add_field.is_billing %}
+                    <span class="badge badge-secondary">Billing</span>
+                    {% endif %}
+                </div>
+                <ul class="list-unstyled">
+                    <li>{{add_field.lot_no}} {{add_field.street}}</li>
+                    <li>{{add_field.locality}}</li>
+                    <li>{{add_field.postal_code}} {{add_field.city}}</li>
+                    <li>{{add_field.state}} {{add_field.country}}</li>
+                </ul>
+                <div class="">
+                    <a href="{% url 'address-update' add_field.id %}" class="btn btn-outline-primary btn-sm mt-1 mb-1">Update</a>
+                    <a href="{% url 'address-delete' add_field.id %}" class="btn btn-outline-danger btn-sm mt-1 mb-1">Delete</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </fieldset>
+</div>
+{% endblock content %}
+

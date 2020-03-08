@@ -1,0 +1,24 @@
+{% extends 'base_email.html' %}
+{% load bootstrap4 %}
+{% block content %}
+<div class="container-fluid content-section shadow-sm">
+    <h1 class="h1">Sweep The Floor</h1>
+    <hr>
+    <p>Hi Admin, </p>
+    <br>
+    <p>A new booking with booking id <strong> {{ booking_id }} </strong> has been created by <strong>{{recipient_name}}</strong>.</p>
+    <p>Please contact user to confirm the date and time and update the system</p>
+    <br>
+    <hr>
+    <address class="">
+        <p class="">Best Regards,</p>
+        <p class="">Admin </p>
+        <p class=""><small>Sweep The Floor</small></p>
+        <p>
+            <a href="https:sweepthefloor.my/admin"><small>Admin STF</small></a>
+        </p>
+    </address>
+</div>
+
+
+{% endblock%}

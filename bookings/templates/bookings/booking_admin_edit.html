@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load crispy_forms_tags %}
+<!--for bootstrap datetimepicker-->
+{% block extrahead %}
+{% bootstrap_javascript jquery='full' %}
+{{ form.media }}
+{% endblock %}
+<!--end for bootstrap datetimepicker-->
+{% block content %}
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Contact Info - {{object.user.first_name}}
+                    {{object.user.last_name}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <address class="content-section text-muted shadow-sm container-fluid padding">
+
+                    <table class="text-muted">
+                        <tr class="">
+                            <td class=""><i class="fas fa-sign-in-alt"></i></td>
+                            <td class="">{{ object.user.username}}</td>
+                        </tr>
+                        <tr class="">
+                            <td class=""><i class="fas fa-phone"></i></td>
+                            <td class="">{{ object.user.profile.phone_no}}</td>
+                        </tr>
+                        <tr class="">
+                            <td class=""><i class="fas fa-mobile-alt"></td>
+                            <td class="">{{ object.user.profile.mobile_no}}</td>
+                        </tr>
+                        <tr class="">
+                            <td class=""><i class="fas fa-envelope"></i></td>
+                            <td class="">{{ object.user.email}}</td>
+                        </tr>
+                    </table>
+                </address>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="content-section shadow">
+    <form method="post" action="" class="">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Booking Administration</legend>
+            <!-- Button trigger modal -->
+            <a href="" class="btn btn-outline-info btn-lg" data-toggle="modal" data-target="#exampleModal">
+                <i class="fas fa-id-card"></i>
+            </a>
+            <hr class="">
+            <h2 class="h2"><i class="fas fa-edit"></i> Update Booking Record - {{object.id}} </h2>
+            {{ form|crispy }}
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Update</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

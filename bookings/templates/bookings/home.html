@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="jumbotron shadow">
+    <h1 class="display-4">Welcome</h1>
+    <p class="lead">SweepTheFloor is the online booking system for cleaning and pest control services. We are currently
+        covering area in KL, Selangor and Putrajaya</p>
+    <hr class="my-4">
+    <p>We provide contract cleaning services and building maintenance plus pest control to enhance their working
+        environment to ensure optimum output. Cleaning accessories are also provided mainly consist of chemicals and air
+        refresher, dust control carpets and sanitary bin. We support government initiative to support for local industry
+        by providing our products, services plus solutions to enhance their business operation.</p>
+    <p class="">Register with us and book your cleaning service today!</p>
+    {% if user.is_authenticated %}
+    <a class="btn btn-outline-info btn-lg" href="{% url 'user-booking' %}" role="button">Book Now!</a>
+    {% else %}
+    <a class="btn btn-outline-info btn-lg" href="{% url 'register' %}" role="button">Register Now!</a>
+    {% endif %}
+    {% if user.is_authenticated == False %}
+    <hr class="my-4">
+    <div>
+        <small class="text-muted">
+            Already Have An Account? <a class="ml-2" href="{% url 'login' %}">Sign In</a>
+        </small>
+    </div>
+    {% endif %}
+</div>
+
+<br>
+
+<div class="card-deck">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card shadow-sm" style="height: 30rem;">
+                <img src="{% static 'website_resource/stf_card_img2_clean_office.png' %}" class="card-img-top"
+                     alt="...">
+                <div class="card-body overflow-auto">
+                    <h5 class="card-title">Office</h5>
+                    <p class="card-text">Cleaning office premises, clinics, warehouse, housing developers showrooms,
+                        etc.</p>
+                    <!--                    <a href="{% url 'user-booking' %}" class="btn btn-primary">Book Now!</a>-->
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm" style="height: 30rem;">
+                <img src="{% static 'website_resource/stf_card_img1_clean_house.jpg' %}" class="card-img-top" alt="...">
+                <div class="card-body overflow-auto">
+                    <h5 class="card-title">House</h5>
+                    <p class="card-text">Daily cleaning service to any housing area including apartments and
+                        condominiums.</p>
+                    <!--                    <a href="{% url 'user-booking' %}" class="btn btn-primary">Book Now!</a>-->
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm" style="height: 30rem;">
+                <img src="{% static 'website_resource/stf_card_img3_pool.jpg' %}" class="card-img-top" alt="...">
+                <div class="card-body overflow-auto">
+                    <h5 class="card-title">Clubs</h5>
+                    <p class="card-text">Swimming pool, gym, party rooms, lounge, meeting rooms, gaming area, function
+                        suites, gardens etc.</p>
+                    <!--                    <a href="{% url 'user-booking' %}" class="btn btn-primary">Book Now!</a>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock%}
